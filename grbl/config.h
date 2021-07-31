@@ -102,14 +102,14 @@
 // on separate pin, but homed in one cycle. Also, it should be noted that the function of hard limits
 // will not be affected by pin sharing.
 // NOTE: Defaults are set for a traditional 3-axis CNC machine. Z-axis first to clear, followed by X & Y.
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
+//#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
+//#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
 // #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
 
 // NOTE: The following are two examples to setup homing for 2-axis machines.
 // #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle. 
 
-// #define HOMING_CYCLE_0 (1<<X_AXIS)  // COREXY COMPATIBLE: First home X
+#define HOMING_CYCLE_0 (1<<X_AXIS)  // COREXY COMPATIBLE: First home X
 // #define HOMING_CYCLE_1 (1<<Y_AXIS)  // COREXY COMPATIBLE: Then home Y
 
 // Number of homing cycles performed after when the machine initially jogs to limit switches.
@@ -121,7 +121,7 @@
 // cycle is still invoked by the $H command. This is disabled by default. It's here only to address
 // users that need to switch between a two-axis and three-axis machine. This is actually very rare.
 // If you have a two-axis machine, DON'T USE THIS. Instead, just alter the homing cycle for two-axes.
-// #define HOMING_SINGLE_AXIS_COMMANDS // Default disabled. Uncomment to enable.
+#define HOMING_SINGLE_AXIS_COMMANDS // Default disabled. Uncomment to enable.
 
 // After homing, Grbl will set by default the entire machine space into negative space, as is typical
 // for professional CNC machines, regardless of where the limit switches are located. Uncomment this
@@ -140,10 +140,10 @@
 // precise this. So, there is likely no need to change these, but you can if you need to here.
 // NOTE: Must be an integer value from 0 to ~4. More than 4 may exhibit round-off errors.
 #define N_DECIMAL_COORDVALUE_INCH 4 // Coordinate or position value in inches
-#define N_DECIMAL_COORDVALUE_MM   3 // Coordinate or position value in mm
+#define N_DECIMAL_COORDVALUE_MM   4 // Coordinate or position value in mm
 #define N_DECIMAL_RATEVALUE_INCH  1 // Rate or velocity value in in/min
-#define N_DECIMAL_RATEVALUE_MM    0 // Rate or velocity value in mm/min
-#define N_DECIMAL_SETTINGVALUE    3 // Decimals for floating point setting values
+#define N_DECIMAL_RATEVALUE_MM    1 // Rate or velocity value in mm/min
+#define N_DECIMAL_SETTINGVALUE    4 // Decimals for floating point setting values
 #define N_DECIMAL_RPMVALUE        0 // RPM value in rotations per min.
 
 // If your machine has two limits switches wired in parallel to one axis, you will need to enable
@@ -156,7 +156,7 @@
 
 // Allows GRBL to track and report gcode line numbers.  Enabling this means that the planning buffer
 // goes from 16 to 15 to make room for the additional line number data in the plan_block_t struct
-// #define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
+#define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
 
 // Upon a successful probe cycle, this option provides immediately feedback of the probe coordinates
 // through an automatically generated message. If disabled, users can still access the last probe
@@ -202,6 +202,7 @@
 // normally-open(NO) and normally-closed(NC) switches installed on their machine.
 // NOTE: PLEASE DO NOT USE THIS, unless you have a situation that needs it.
 // #define INVERT_LIMIT_PIN_MASK ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)) // Default disabled. Uncomment to enable.
+#define INVERT_LIMIT_PIN_MASK ((1<<X_LIMIT_BIT))
 
 // Inverts the spindle enable pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
@@ -336,7 +337,7 @@
 // enable pin will output 5V for maximum RPM with 256 intermediate levels and 0V when disabled.
 // NOTE: IMPORTANT for Arduino Unos! When enabled, the Z-limit pin D11 and spindle enable pin D12 switch!
 // The hardware PWM output on pin D11 is required for variable spindle output voltages.
-#define VARIABLE_SPINDLE // Default enabled. Comment to disable.
+//#define VARIABLE_SPINDLE // Default enabled. Comment to disable.
 
 // Used by variable spindle output only. This forces the PWM output to a minimum duty cycle when enabled.
 // The PWM pin will still read 0V when the spindle is disabled. Most users will not need this option, but
@@ -688,5 +689,6 @@
 
 // Paste default settings definitions here.
 
+#define DO_SOFT_AXES 1 // bitfield which controls if soft axes are enabled for each axis.where first bit is X-axis etc 
 
 #endif
