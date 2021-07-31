@@ -374,7 +374,12 @@ void limits_go_home(uint8_t cycle_mask)
     // NOTE: settings.max_travel[] is stored as a negative value.
     if (cycle_mask & bit(idx)) {
       #ifdef HOMING_FORCE_SET_ORIGIN
-        set_axis_position = 0;
+        //set_axis_position = 0;
+        if ( bit_istrue(settings.homing_dir_mask,bit(idx)) ) {  
+            set_axis_position = lround( settings.max_travel[idx] * settings.steps_per_mm[idx] );    
+        } else {
+		    set_axis_position = 0;
+        }
       #else
         if ( bit_istrue(settings.homing_dir_mask,bit(idx)) ) {
           set_axis_position = lround((settings.max_travel[idx]+settings.homing_pulloff)*settings.steps_per_mm[idx]);
